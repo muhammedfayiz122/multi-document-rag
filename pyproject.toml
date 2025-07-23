@@ -1,0 +1,21 @@
+[project]
+name = "multi-document-RAG"
+version = "0.1.0"
+description = "RAG on multiple documents"
+authors = [
+    { name = "Muhammed Fayiz", email = "muhammedfayiz122@gmail.com"},
+]
+readme = "README.md"
+license = { text = "MIT License", url = "https://opensource.org/licenses/MIT" }
+requires-python = ">=3.8"
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/muhammedfayiz122/multi-document-rag"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["multi_document_rag"]

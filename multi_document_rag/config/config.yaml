@@ -1,0 +1,11 @@
+models:
+  openai: "gpt-4.1-nano"
+  gemini: "gemini-1.5-flash"
+
+docker:
+  work_dir: "temp"
+  timeout: 20
+
+logging:
+  dir: "logs/"
+  format: "%m_%d_%Y_%H_%M_%S"
