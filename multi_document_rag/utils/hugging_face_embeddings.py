@@ -4,7 +4,7 @@ import time
 
 def load_embedding_model():
     start_time = time.time()
-    print("Loading HuggingFace embedding model...")
+    logger.info("Loading HuggingFace embedding model...")
     embedding = HuggingFaceEmbeddings(
         model_name="intfloat/e5-base-v2",
         encode_kwargs={

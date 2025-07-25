@@ -6,7 +6,8 @@ def pdf_loader(pdf_path):
     try:
         loader = PyPDFLoader(pdf_path)
         docs = loader.load()
-        logger.info(f"Loaded {len(docs)} documents from {pdf_path}.")
+        file_name = pdf_path.split(sep='\\')[-1] if '\\' in pdf_path else pdf_path.split(sep='/')[-1]
+        logger.info(f"Loaded {len(docs)} documents from {file_name}.")
         return docs
     except Exception as e:
         logger.error(f"Error loading PDF document: {e}")

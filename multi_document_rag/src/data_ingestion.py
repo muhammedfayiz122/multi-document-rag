@@ -18,10 +18,10 @@ class DataIngestion():
         splitted_docs = recursive_text_splitter(docs)
         return splitted_docs
     
-    def embed_documents(self, splitted_docs):
+    def load_embeddings(self):
         embeddings = load_embedding_model()
-        embedded_docs = embeddings.embed_documents(splitted_docs)
-        return embedded_docs
+        # embedded_docs = embeddings.embed_documents(splitted_docs)
+        return embeddings
     
     def vector_store(self, embeddings):
         vector_store = create_vector_store(embeddings)
@@ -37,10 +37,11 @@ class DataIngestion():
             vector_store: The created vector store with embedded documents.
         """
         try:
-            logger.info("Starting data ingestion process on PDF: %s", pdf_path)
+            file_name = pdf_path.split(sep='\\')[-1] if '\\' in pdf_path else pdf_path.split(sep='/')[-1]
+            logger.info("Starting data ingestion process on PDF: " + file_name)
             docs = self.document_loader(pdf_path)
             splitted_docs = self.document_splitter(docs)
-            embeddings = self.embed_documents(splitted_docs)
+            embeddings = self.load_embeddings()
             vector_store = self.vector_store(embeddings)
             logger.info("Data ingestion process completed successfully.")
             return vector_store
