@@ -1,12 +1,56 @@
+from multi_document_rag.utils.pdf_loader import pdf_loader
+from multi_document_rag.utils.chunker import recursive_text_splitter 
+from multi_document_rag.utils.hugging_face_embeddings import load_embedding_model
+from multi_document_rag.logger.logger import logger
+from multi_document_rag.utils.vector_store import create_vector_store, add_documents_to_vector_store
+from multi_document_rag.utils.paths import ROOT_DIR
+import os
+
 class DataIngestion():
     def __init__(self):
         pass
-    def document_loader(self):
-        pass
-    def document_splitter(self):
-        pass
-    def embed_documents(self):
-        pass
-    def vector_store(self):
-        pass
+
+    def document_loader(self, pdf_path):
+        docs = pdf_loader(pdf_path)
+        return docs
+    
+    def document_splitter(self, docs):
+        splitted_docs = recursive_text_splitter(docs)
+        return splitted_docs
+    
+    def embed_documents(self, splitted_docs):
+        embeddings = load_embedding_model()
+        embedded_docs = embeddings.embed_documents(splitted_docs)
+        return embedded_docs
+    
+    def vector_store(self, embeddings):
+        vector_store = create_vector_store(embeddings)
+        add_documents_to_vector_store(vector_store, embeddings)
+        return vector_store
+    
+    def run(self, pdf_path):
+        """
+        Main method to run the data ingestion pipeline.
+        Args:
+            pdf_path (str): Path to the PDF document.
+        Returns:
+            vector_store: The created vector store with embedded documents.
+        """
+        try:
+            logger.info("Starting data ingestion process on PDF: %s", pdf_path)
+            docs = self.document_loader(pdf_path)
+            splitted_docs = self.document_splitter(docs)
+            embeddings = self.embed_documents(splitted_docs)
+            vector_store = self.vector_store(embeddings)
+            logger.info("Data ingestion process completed successfully.")
+            return vector_store
+        except Exception as e:
+            logger.error(f"Error in data ingestion process: {e}")
+            raise e
+        
+if __name__ == "__main__":
+    pdf_path = os.path.join(ROOT_DIR, "data", "sample.pdf")  # Replace with your PDF path
+    data_ingestion = DataIngestion()
+    vector_store = data_ingestion.run(pdf_path)
+    logger.info("Vector store created successfully.")
     

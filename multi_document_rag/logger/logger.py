@@ -14,10 +14,10 @@ except ImportError:
 # os.environ["TERM"] = "xterm-color"
 
 # Config Values
-LOG_FILE_NAME = f"{datetime.now().strftime("%m_%d_%Y_%H_%M_%S")}.log"
+LOG_FILE_NAME = f"{datetime.now().strftime('%m_%d_%Y_%H_%M_%S')}.log"
 LOG_FILE_FORMAT = "[%(asctime)s] %(levelname)s: %(message)s"
 LOG_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
-LOG_CONSOLE_FORMAT = "%(log_color)s[%(asctime)s] [%(levelname)s] %(name)s:%(lineno)d - %(message)s"
+LOG_CONSOLE_FORMAT = "%(log_color)s[%(asctime)s] [%(levelname)s] line:%(lineno)d - %(message)s"
 LOG_LEVEL = logging.DEBUG
 LOG_MAX_BYTES = 5 * 1024 * 1024
 LOG_BACKUP_COUNT = 50
