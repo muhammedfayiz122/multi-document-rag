@@ -1,9 +1,10 @@
 from langchain_milvus import Milvus
 from multi_document_rag.logger.logger import logger
 from multi_document_rag.exception.custom_exception import CustomException
+from langchain_core.embeddings import Embeddings
 import sys
 
-def create_vector_store(embeddings):
+def create_vector_store(embeddings: Embeddings) -> Milvus:
     """
     Create a vector store using Milvus with the provided embeddings.
     Args:
@@ -32,8 +33,8 @@ def create_vector_store(embeddings):
         logger.info("Vector store created successfully.")
         return vector_store
     except Exception as e:
-        logger.error(f"Error creating vector store: {e}")
-        raise CustomException(e)
+        print("error in creating vector store:", str(e))
+        # raise CustomException(e, custom_msg="Failed to create vector store")
 
 def add_documents_to_vector_store(vector_store, documents):
     """
@@ -46,15 +47,8 @@ def add_documents_to_vector_store(vector_store, documents):
     Raises:
         CustomException: If there is an error while adding documents.
     """
-    # try:
-    #     vector_store.add_documents(documents)
-    #     logger.info("Documents added to vector store successfully.")
-    # except Exception as e:
-    #     logger.error(f"Error adding documents to vector store: {e}")
-    #     raise CustomException(e)
     try:
         vector_store.add_documents(documents)
         logger.info("Documents added to vector store successfully.")
     except Exception as e:
-        logger.error(f"Error adding documents to vector store: {e}")
-        raise CustomException(e)
+        raise CustomException(e, custom_msg="Failed to add documents to vector store")

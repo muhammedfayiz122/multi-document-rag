@@ -25,7 +25,7 @@ class DataIngestion():
     
     def vector_store(self, embeddings):
         vector_store = create_vector_store(embeddings)
-        add_documents_to_vector_store(vector_store, embeddings)
+        # add_documents_to_vector_store(vector_store, embeddings)
         return vector_store
     
     def run(self, pdf_path):
@@ -36,22 +36,17 @@ class DataIngestion():
         Returns:
             vector_store: The created vector store with embedded documents.
         """
-        try:
-            file_name = pdf_path.split(sep='\\')[-1] if '\\' in pdf_path else pdf_path.split(sep='/')[-1]
-            logger.info("Starting data ingestion process on PDF: " + file_name)
-            docs = self.document_loader(pdf_path)
-            splitted_docs = self.document_splitter(docs)
-            embeddings = self.load_embeddings()
-            vector_store = self.vector_store(embeddings)
-            logger.info("Data ingestion process completed successfully.")
-            return vector_store
-        except Exception as e:
-            logger.error(f"Error in data ingestion process: {e}")
-            raise e
+        file_name = pdf_path.split(sep='\\')[-1] if '\\' in pdf_path else pdf_path.split(sep='/')[-1]
+        logger.info("Starting data ingestion process on PDF: " + file_name)
+        docs = self.document_loader(pdf_path)
+        splitted_docs = self.document_splitter(docs)
+        embeddings = self.load_embeddings()
+        vector_store = self.vector_store(embeddings)
+        return vector_store
         
 if __name__ == "__main__":
     pdf_path = os.path.join(ROOT_DIR, "data", "sample.pdf")  # Replace with your PDF path
     data_ingestion = DataIngestion()
     vector_store = data_ingestion.run(pdf_path)
-    logger.info("Vector store created successfully.")
+    logger.info("Data ingestion process completed successfully.")
     
